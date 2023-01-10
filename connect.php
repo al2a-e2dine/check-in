@@ -1,5 +1,5 @@
 <?php
-$dbc = mysqli_connect('localhost', 'root', '', 'cow');
+$dbc = mysqli_connect('localhost', 'root', '', 'checkin');
 
 
 if (!$dbc) {
