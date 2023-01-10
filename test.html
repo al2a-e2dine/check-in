@@ -1,0 +1,22 @@
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta charset="utf-8">
+ <body>
+    <input type="text" id="input" value="" />
+ </body>
+ <script src='lien/jquery2.js'></script>
+ <script>
+ var element = document.getElementById('input');
+element.addEventListener('input', function() {
+  let id = document.getElementById("input");
+
+    $.ajax({
+      type:'GET',
+      url:'test2.php',
+      data:'idc='+id.value,
+      success:function (data) {
+        top.document.location="test.html";
+      }});
+    });
+ </script>
+</html>
