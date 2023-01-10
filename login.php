@@ -9,7 +9,7 @@ if(isset($_POST['submit'])){
     if ($username == "admin" && $password == "admin") {
         $_SESSION['user_id']=1;
         $_SESSION['user_name']="Admin";
-        header('location:g_cow.php');
+        header('location:g_emp.php');
     }else{
         $msg = "Votre nom d'utilisateur ou le mot de passe est incorrect";
     }

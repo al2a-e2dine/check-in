@@ -10,29 +10,21 @@ header('location:login.php');
 }
 
 if(isset($_POST['submit'])){
-   $title =  $_POST['title'];
-   $desc = mysqli_real_escape_string($dbc,$_POST['cow_desc']);
-   $price =  $_POST['price'];
-  include 'uploadfile.php';
-   //$file_name
+   $fullname =  $_POST['fullname'];
+   $phone =  $_POST['phone'];
 
-   $q="INSERT INTO `cows`(`title`, `cow_desc`, `price`, `img`, `user_id`) VALUES ('$title','$desc','$price','$file_name','$user_id')";
+   $q="INSERT INTO `users` ('fullname', 'phone') VALUES ('$fullname','$phone')";
    $r=mysqli_query($dbc,$q);
    $msg="insertion terminé";
 }
 
 if(isset($_POST['submit2'])){
-    $title =  $_POST['title'];
-    $desc = mysqli_real_escape_string($dbc,$_POST['cow_desc']);
-    $price =  $_POST['price'];
-    $cid = $_POST['cid'];
-    include 'uploadfile.php';
+    $fullname =  $_POST['fullname'];
+    $phone =  $_POST['phone'];
     //echo $file_name; exit();
-   if($file_name){
-    $q="UPDATE `cows` SET `title`='$title',`cow_desc`='$desc',`price`='$price',`img`='$file_name',`user_id`='$user_id' WHERE id=$cid";
-   }else{
-    $q="UPDATE `cows` SET `title`='$title',`cow_desc`='$desc',`price`='$price',`user_id`='$user_id' WHERE id=$cid";
-   }
+    $cid = $_POST['cid'];
+    $q="UPDATE `users` SET `fullname`='$fullname',`phone`='$phone' WHERE id=$cid";
+   
  
     
     $r=mysqli_query($dbc,$q);
@@ -51,7 +43,7 @@ if(isset($_POST['submit2'])){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Gestion des vaches</title>
+    <title>Gestion des employeurs</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -86,7 +78,7 @@ if(isset($_POST['submit2'])){
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Gestion des vaches</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Gestion des employeurs</h1>
                     <?php
                                         if(isset($msg)){ ?>
                                         <div class="alert alert-info">
@@ -96,7 +88,7 @@ if(isset($_POST['submit2'])){
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <a href="" data-toggle="modal" data-target="#addcow"><h6 class="m-0 font-weight-bold text-primary">Ajouter une nouvelle vache</h6></a>
+                            <a href="" data-toggle="modal" data-target="#addcow"><h6 class="m-0 font-weight-bold text-primary">Ajouter une nouvelle employeur</h6></a>
 
                              <!-- add cow Modal-->
   <div class="modal fade" id="addcow">
@@ -105,23 +97,19 @@ if(isset($_POST['submit2'])){
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Ajouter une nouvelle vache</h4>
+          <h4 class="modal-fullname">Ajouter un nouveau employer</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
         <!-- Modal body -->
         <div class="modal-body">
-        <form action="g_cow.php" method="post" enctype="multipart/form-data">
+        <form action="g_emp.php" method="post" >
   <div class="form-group">
-    <input type="text" class="form-control" placeholder="Titre" name="title" required>
+    <input type="text" class="form-control" placeholder="Nom complet" name="fullname" required>
   </div>
   <div class="form-group">
-  <textarea class="form-control" rows="5" placeholder="Description" name="cow_desc" required></textarea>
-</div>
-  <div class="form-group">
-    <input type="number" class="form-control" placeholder="Prix" name="price" required>
+    <input type="number" class="form-control" placeholder="Numéro de téléphone" name="phone" required>
   </div>
-  <input type="file" class="form-control-file border" name="fileToUpload" required>
   <input type="submit" class="btn btn-primary btn-block" name="submit" value="Ajouter">
 </form>
         </div>
@@ -139,7 +127,7 @@ if(isset($_POST['submit2'])){
 
                         <?php
                         
-                        $q="SELECT * FROM `cows` WHERE `status`=1";
+                        $q="SELECT * FROM `users` WHERE `actif`=1";
                         $r=mysqli_query($dbc,$q);
 
                         ?>
@@ -150,10 +138,8 @@ if(isset($_POST['submit2'])){
                                     <thead>
                                         <tr>
                                             <th>Id</th>
-                                            <th>Photo</th>
-                                            <th>Titre</th>
-                                            <th>Description</th>
-                                            <th>Prix</th>
+                                            <th>Nom complet</th>
+                                            <th>Numéro de téléphone</th>
                                             <th>Date</th>
                                             <th>Modifier</th>
                                             <th>Supprimer</th>
@@ -162,10 +148,8 @@ if(isset($_POST['submit2'])){
                                     <tfoot>
                                         <tr>
                                         <th>Id</th>
-                                            <th>Photo</th>
-                                            <th>Titre</th>
-                                            <th>Description</th>
-                                            <th>Prix</th>
+                                            <th>Nom complet</th>
+                                            <th>Numéro de téléphone</th>
                                             <th>Date</th>
                                             <th>Modifier</th>
                                             <th>Supprimer</th>
@@ -174,16 +158,12 @@ if(isset($_POST['submit2'])){
                                     <tbody>
 
                                         <?php while ($row=mysqli_fetch_assoc($r)) {
-                                            $cow_id=$row['id'];
-                                            //echo $cow_id; exit();
                                             ?>
                                             
                                         <tr>
                                             <td><?= $row['id'] ?></td>
-                                            <td><img src="<?= $row['img'] ?>" class="rounded img-thumbnail mx-auto d-block" alt="vaches"></td>
-                                            <td><?= $row['title'] ?></td>
-                                            <td><?= $row['cow_desc'] ?></td>
-                                            <td><?= $row['price'] ?></td>
+                                            <td><?= $row['fullname'] ?></td>
+                                            <td><?= $row['phone'] ?></td>
                                             <td><?= $row['date'] ?></td>
                                             <td>
                                                 <a href="" data-toggle="modal" data-target="#updatecow<?= $row['id'] ?>" class="btn btn-success btn-block">Modifier</a>
@@ -195,7 +175,7 @@ if(isset($_POST['submit2'])){
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Modifer</h4>
+          <h4 class="modal-fullname">Modifer</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
@@ -203,22 +183,18 @@ if(isset($_POST['submit2'])){
         <div class="modal-body">
 
         <?php
-        $cowInfo=getInfoById('cows',$cow_id);
-        //echo $cowInfo['title']; exit();
+        $userInfo=getInfoById('users',$row['id']);
+        //echo $userInfo['fullname']; exit();
         ?>
 
-        <form action="g_cow.php" method="post" enctype="multipart/form-data">
+        <form action="g_emp.php" method="post" >
   <div class="form-group">
-    <input type="text" class="form-control" value="<?= $cowInfo['title'] ?>" name="title" required>
+    <input type="text" class="form-control" value="<?= $userInfo['fullname'] ?>" name="fullname" required>
   </div>
   <div class="form-group">
-  <textarea class="form-control" rows="5" name="cow_desc" required><?= $cowInfo['cow_desc'] ?></textarea>
-</div>
-  <div class="form-group">
-    <input type="number" class="form-control" value="<?= $cowInfo['price'] ?>" name="price" required>
+    <input type="number" class="form-control" value="<?= $userInfo['phone'] ?>" name="phone" required>
   </div>
-  <input type="hidden" value="<?= $cow_id ?>" name="cid">
-  <input type="file" class="form-control-file border" name="fileToUpload">
+  <input type="hidden" value="<?= $row['id'] ?>" name="cid">
   <input type="submit" class="btn btn-success btn-block" name="submit2" value="Modifier">
 </form>
         </div>
@@ -233,7 +209,7 @@ if(isset($_POST['submit2'])){
   </div>
 
                                             </td>
-                                            <td><a href="delete_cow.php?id=<?= $cow_id ?>"  class="btn btn-danger btn-block">Supprimer</a></td>
+                                            <td><a href="delete_emp.php?id=<?= $row['id'] ?>"  class="btn btn-danger btn-block">Supprimer</a></td>
                                         </tr>
 
                                         <?php } ?>
