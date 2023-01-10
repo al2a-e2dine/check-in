@@ -1,28 +1,17 @@
 <?php
-include_once 'connect.php';
 session_start();
 
 if(isset($_POST['submit'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $q = "SELECT * FROM `users` WHERE `username`='$username' and `password`='$password'";
-    $r = mysqli_query($dbc,$q);
-    $row = mysqli_fetch_assoc($r);
-
-    $num = mysqli_num_rows($r);
-
-
-    if ($num == 1) {
-        $_SESSION['user_id']=$row['id'];
-        $_SESSION['user_name']=$row['username'];
-        
-        $_SESSION['user_date']=$row['date'];
-
+    
+    if ($username == "admin" && $password == "admin") {
+        $_SESSION['user_id']=1;
+        $_SESSION['user_name']="Admin";
         header('location:g_cow.php');
     }else{
         $msg = "Votre nom d'utilisateur ou le mot de passe est incorrect";
-        //echo $msg; exit();
     }
 
 }
