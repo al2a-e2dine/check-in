@@ -5,12 +5,15 @@ if(isset($_POST['submit'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+
     
-    if ($username == "admin" && $password == "admin") {
-        $_SESSION['user_id']=2;
-        $_SESSION['user_name']="Admin";
-        header('location:index.php');
+    if ($username == "yacine" && $password == "123") {
+        //echo "1"; exit();
+        $_SESSION['user_id']=1;
+        $_SESSION['user_name']="yacine";
+        header('location:g_emp.php');
     }else{
+        //echo "2"; exit();
         $msg = "Votre nom d'utilisateur ou le mot de passe est incorrect";
     }
 
@@ -43,7 +46,7 @@ if(isset($_POST['submit'])){
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-dark">
 
     <div class="container">
 
@@ -67,7 +70,7 @@ if(isset($_POST['submit'])){
                                         </div>
                                         <?php } ?>
                                     </div>
-                                    <form class="user" action="login.php" method="post">
+                                    <form class="user" action="login_admin.php" method="post">
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"

@@ -4,7 +4,7 @@ include_once 'connect.php';
 include 'function_inc.php';
 
 if(!isset($_SESSION['user_id'])){
-header('location:login.php');
+header('location:login_admin.php');
 }else{
     $user_id = $_SESSION['user_id'];
 }
@@ -13,7 +13,8 @@ if(isset($_POST['submit'])){
    $fullname =  $_POST['fullname'];
    $phone =  $_POST['phone'];
 
-   $q="INSERT INTO `users` ('fullname', 'phone') VALUES ('$fullname','$phone')";
+   $q="INSERT INTO `users`(`fullname`, `phone`) VALUES ('$fullname','$phone')";
+   //echo $q; exit();
    $r=mysqli_query($dbc,$q);
    $msg="insertion terminé";
 }
@@ -43,7 +44,7 @@ if(isset($_POST['submit2'])){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Gestion des employeurs</title>
+    <title>Gestion des employés</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -78,7 +79,7 @@ if(isset($_POST['submit2'])){
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Gestion des employeurs</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Gestion des employés</h1>
                     <?php
                                         if(isset($msg)){ ?>
                                         <div class="alert alert-info">
@@ -88,7 +89,7 @@ if(isset($_POST['submit2'])){
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <a href="" data-toggle="modal" data-target="#addcow"><h6 class="m-0 font-weight-bold text-primary">Ajouter une nouvelle employeur</h6></a>
+                            <a href="" data-toggle="modal" data-target="#addcow"><h6 class="m-0 font-weight-bold text-primary">Ajouter un nouvel employé</h6></a>
 
                              <!-- add cow Modal-->
   <div class="modal fade" id="addcow">
@@ -97,7 +98,7 @@ if(isset($_POST['submit2'])){
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-fullname">Ajouter un nouveau employer</h4>
+          <h4 class="modal-fullname">Ajouter un nouvel employé</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
@@ -116,7 +117,7 @@ if(isset($_POST['submit2'])){
         
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
         </div>
         
       </div>
@@ -141,6 +142,7 @@ if(isset($_POST['submit2'])){
                                             <th>Nom complet</th>
                                             <th>Numéro de téléphone</th>
                                             <th>Date</th>
+                                            <th>Profil</th>
                                             <th>Modifier</th>
                                             <th>Supprimer</th>
                                         </tr>
@@ -151,6 +153,7 @@ if(isset($_POST['submit2'])){
                                             <th>Nom complet</th>
                                             <th>Numéro de téléphone</th>
                                             <th>Date</th>
+                                            <th>Profil</th>
                                             <th>Modifier</th>
                                             <th>Supprimer</th>
                                         </tr>
@@ -165,6 +168,7 @@ if(isset($_POST['submit2'])){
                                             <td><?= $row['fullname'] ?></td>
                                             <td><?= $row['phone'] ?></td>
                                             <td><?= $row['date'] ?></td>
+                                            <td><a href="profile.php?id=<?= $row['id'] ?>"  class="btn btn-primary btn-block">Profil</a></td>
                                             <td>
                                                 <a href="" data-toggle="modal" data-target="#updatecow<?= $row['id'] ?>" class="btn btn-success btn-block">Modifier</a>
 
